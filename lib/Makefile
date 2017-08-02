@@ -6,6 +6,6 @@ LEVEL=..
 #
 # List all of the subdirectories that we will compile.
 #
-DIRS = $(patsubst $(PROJ_SRC_DIR)/%/Makefile,%,$(wildcard $(PROJ_SRC_DIR)/*/Makefile))
+PARALLEL_DIRS = $(patsubst $(PROJ_SRC_DIR)/%/Makefile,%,$(wildcard $(PROJ_SRC_DIR)/*/Makefile))
 
 include $(LEVEL)/Makefile.common
