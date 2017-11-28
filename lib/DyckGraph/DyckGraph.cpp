@@ -6,9 +6,16 @@
 #include "DyckGraph/DyckGraph.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <hashtable.h>
 #include <string>
 #include <assert.h>
+
+// Windows less 'hashtable.h'
+// And the head file is not used ?
+#ifdef __linux__
+#include <hashtable.h>
+#elif _WIN32
+
+#endif
 
 void DyckGraph::printAsDot(const char* filename) const {
 	FILE * f = fopen(filename, "w+");
