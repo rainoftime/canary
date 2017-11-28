@@ -33,8 +33,8 @@ ProgressBar::ProgressBar(std::string Title, ProgressBarStyle Style, float Update
     HANDLE StdOutHandler = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO ConsoleInfo;
 
-    GetConsoleScreenBufferInfo(StdOutHandler, ConsoleInfo);
-    WindowWidth = ConsoleInfo.dwSize.x > 80 ? 80 : ConsoleInfo.dwSize.x - Title.length() - 15;
+    GetConsoleScreenBufferInfo(StdOutHandler, &ConsoleInfo);
+    WindowWidth = ConsoleInfo.dwSize.X > 80 ? 80 : ConsoleInfo.dwSize.X - Title.length() - 15;
 #endif
 
     if (WindowWidth < 15) {
@@ -114,8 +114,8 @@ void ProgressBar::resize() {
     HANDLE StdOutHandler = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO ConsoleInfo;
 
-    GetConsoleScreenBufferInfo(StdOutHandler, ConsoleInfo);
-    CurrentWindowWidth = ConsoleInfo.dwSize.x > 80 ? 80 : ConsoleInfo.dwSize.x - Title.length() - 15;
+    GetConsoleScreenBufferInfo(StdOutHandler, &ConsoleInfo);
+    CurrentWindowWidth = ConsoleInfo.dwSize.X > 80 ? 80 : ConsoleInfo.dwSize.X - Title.length() - 15;
 #endif
 
     if (CurrentWindowWidth < 15) {
