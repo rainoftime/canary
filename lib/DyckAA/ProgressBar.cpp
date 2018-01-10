@@ -21,6 +21,10 @@
 #include <string.h>
 #include "DyckAA/ProgressBar.h"
 
+/*==-->>> system options--==*/
+extern bool HideProgressBar;
+/*==--<<< system options--==*/
+
 namespace DyckAA {
 
 ProgressBar::ProgressBar(std::string Title, ProgressBarStyle Style, float UpdateFrequency) :
@@ -67,6 +71,12 @@ void ProgressBar::showProgress(float Percent) {
 
     // In case the window width is changed at runtime.
     resize();
+
+    if (HideProgressBar) {
+        printf("%s: %d%%\r", Title.c_str(), (int)(Percent * 100));
+        fflush(stdout);
+        return;
+    }
 
     float Val = Percent * WindowWidth;
     switch (this->Style) {
