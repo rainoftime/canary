@@ -221,4 +221,30 @@ void DyckCallGraph::printFunctionPointerStat() {
     outs() << "============Canary CG Resolution Statistics End===============\n";
 }
 
+set<Function*>* DyckCallGraph::getCalleesForIndirectCallSite(Function* f, CallSite cs) {
+    set<Function*>* callees = nullptr;
+    auto fwIt = this->begin();
+    while (fwIt != this->end()) {
+        // find the matching function
+        if (fwIt->first == f) {
+            DyckCallGraphNode* fw = fwIt->second;
+            set<PointerCall*>* fpCallsMap = &(fw->getPointerCalls());
+            set<PointerCall*>::iterator fpIt = fpCallsMap->begin();
+            // find the matching call site
+            while (fpIt != fpCallsMap->end()) {
+                if ((*(fpIt))->instruction == cs.getInstruction()) {
+                    callees = &((*(fpIt))->mayAliasedCallees);
+                    break;
+                } else {
+                    fpIt++;
+                }
+            }
+            return callees;
+        } else {
+            fwIt++;
+        }
+    }
+    return callees;
+}
+
 
