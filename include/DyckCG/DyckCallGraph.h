@@ -78,6 +78,7 @@ public:
     
     void dotCallGraph(const string& mIdentifier);
     void printFunctionPointersInformation(const string& mIdentifier);
+    void printFunctionPointerStat();
     
 };
 

@@ -172,3 +172,53 @@ void DyckCallGraph::printFunctionPointersInformation(const string& mIdentifier) 
 
     fclose(fout);
 }
+
+void DyckCallGraph::printFunctionPointerStat() {
+    int CG_BUCKET_NUMBER = 11;
+    int cg_bucket[CG_BUCKET_NUMBER] = { 0 };
+    int cg_bucket_steps[CG_BUCKET_NUMBER] = { 0, 1, 2, 3, 4, 5, 6, 7, 10, 30, 100 };
+    auto fwIt = this->begin();
+    while (fwIt != this->end()) {
+        DyckCallGraphNode* fw = fwIt->second;
+
+        set<PointerCall*>* fpCallsMap = &(fw->getPointerCalls());
+        set<PointerCall*>::iterator fpIt = fpCallsMap->begin();
+        while (fpIt != fpCallsMap->end()) {
+            set<Function*>* mayCalled = &((*(fpIt))->mayAliasedCallees);
+            int i;
+            for (i = 0; i < CG_BUCKET_NUMBER - 1; i++) {
+                if (mayCalled->size() < cg_bucket_steps[i + 1]) {
+                    cg_bucket[i]++;
+                    break;
+                }
+            }
+
+            // what functions?
+            set<Function*>::iterator mcIt = mayCalled->begin();
+            while (mcIt != mayCalled->end()) {
+                // Function * mcf = *mcIt;
+                //fprintf(fout, "%s\n", mcf->getName().data());
+
+                mcIt++;
+            }
+            fpIt++;
+        }
+        fwIt++;
+    }
+    outs() << "============Canary CG Resolution Statistics Begin===============\n";
+    outs() << "\n";
+    int i;
+    for (i = 0; i < CG_BUCKET_NUMBER - 1; i++) {
+        if (cg_bucket_steps[i] == cg_bucket_steps[i + 1] - 1)
+            outs() << "\t" << cg_bucket_steps[i] << ":\t\t";
+        else
+            outs() << "\t" << cg_bucket_steps[i] << " - " << cg_bucket_steps[i + 1] - 1 << ": \t\t";
+        outs() << cg_bucket[i] << "\n";
+    }
+    outs() << "\t>" << cg_bucket_steps[i] << ": \t\t";
+    outs() << cg_bucket[i] << "\n";
+    outs() << "\n";
+    outs() << "============Canary CG Resolution Statistics End===============\n";
+}
+
+
