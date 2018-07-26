@@ -175,8 +175,8 @@ void DyckCallGraph::printFunctionPointersInformation(const string& mIdentifier) 
 
 void DyckCallGraph::printFunctionPointerStat() {
     int CG_BUCKET_NUMBER = 11;
-    int cg_bucket[CG_BUCKET_NUMBER] = { 0 };
-    int cg_bucket_steps[CG_BUCKET_NUMBER] = { 0, 1, 2, 3, 4, 5, 6, 7, 10, 30, 100 };
+    int cg_bucket[11] = { 0 };
+    int cg_bucket_steps[11] = { 0, 1, 2, 3, 4, 5, 6, 7, 10, 30, 100 };
     auto fwIt = this->begin();
     while (fwIt != this->end()) {
         DyckCallGraphNode* fw = fwIt->second;
