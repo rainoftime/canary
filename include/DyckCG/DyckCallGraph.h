@@ -78,6 +78,8 @@ public:
     
     void dotCallGraph(const string& mIdentifier);
     void printFunctionPointersInformation(const string& mIdentifier);
+    void printFunctionPointerStat();
+    set<Function*>* getCalleesForIndirectCallSite(Function* f, CallSite cs);
     
 };
 
