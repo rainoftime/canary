@@ -17,7 +17,7 @@
 static cl::opt<bool> PrintAliasSetInformation("print-alias-set-info", cl::init(false), cl::Hidden,
 		cl::desc("Output all alias sets, their relations and the evaluation results."));
 
-static cl::opt<bool> PreserveCallGraph("preserve-dyck-callgraph", cl::init(true), cl::Hidden,
+static cl::opt<bool> PreserveCallGraph("preserve-dyck-callgraph", cl::init(false), cl::Hidden,
 		cl::desc("Preserve the call graph for usage in other passes."));
 
 static cl::opt<bool> DotCallGraph("dot-dyck-callgraph", cl::init(false), cl::Hidden,
