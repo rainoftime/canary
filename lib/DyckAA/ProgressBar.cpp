@@ -22,7 +22,7 @@
 #include "DyckAA/ProgressBar.h"
 
 /*==-->>> system options--==*/
-extern bool HideProgressBar;
+bool HideProgressBar = false;
 /*==--<<< system options--==*/
 
 namespace DyckAA {
