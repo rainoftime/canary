@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 project(canary C CXX)
     
+set (LLVMCONFIG "${LLVM_BUILD_PATH}/bin/llvm-config")
 
-find_program(LLVMCONFIG llvm-config PATHS ${LLVM_BUILD_PATH}/bin ${LLVM_BUILD_PATH}/Debug/bin ${LLVM_BUILD_PATH}/Release/bin)
-if(NOT LLVMCONFIG)
-    message(FATAL_ERROR "llvm-config not found!") 
-endif()
+#find_program(LLVMCONFIG llvm-config PATHS ${LLVM_BUILD_PATH}/bin ${LLVM_BUILD_PATH}/Debug/bin ${LLVM_BUILD_PATH}/Release/bin)
+#if(NOT LLVMCONFIG)
+#    message(FATAL_ERROR "llvm-config not found!") 
+#endif()
    
 execute_process(COMMAND ${LLVMCONFIG} --cxxflags OUTPUT_VARIABLE CMAKE_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVMCONFIG} --cflags OUTPUT_VARIABLE CMAKE_C_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)

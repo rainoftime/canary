@@ -1,0 +1,35 @@
+# This file is a template, and might need editing before it works on your project.
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/C++.gitlab-ci.yml
+
+# use the official gcc image, based on debian
+# can use versions as well, like gcc:5.2
+# see https://hub.docker.com/_/gcc/
+
+default:
+  image: cl0und233/ubuntu_20.04:v2
+
+stages:
+- build
+
+build:
+  tags:
+    - build
+  stage: build
+  script:
+    #- 'mv ./source.list /etc/apt/sources.list && apt-get update && apt-get install -y ninja-build build-essential cmake python2 curl unzip ssh --no-install-recommends'
+    - 'curl -k --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat--N8L6K9x8hUPxR18792R" "https://gitlab.com/api/v4/projects/33811968/jobs/2126662651/artifacts"'
+    - unzip artifacts.zip # llvm is installed at installed/llvm
+    # Build Canary
+    - mkdir build && cd build
+    - cmake -DLLVM_BUILD_PATH=$PWD/../installed/llvm/ ..
+    - make -j 70
+    - cd ../..
+  artifacts:
+    paths:
+      - ./build
