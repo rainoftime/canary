@@ -3,6 +3,8 @@
  * Copy Right by Prism Research Group, HKUST and State Key Lab for Novel Software Tech., Nanjing University.  
  */
 
+#include <llvm/IR/DebugInfo.h>
+#include <llvm/Support/Casting.h>
 #include "DyckCG/DyckCallGraph.h"
 
 static cl::opt<bool>
@@ -133,7 +135,7 @@ void DyckCallGraph::printFunctionPointersInformation(const string& mIdentifier) 
         set<PointerCall*>* fpCallsMap = &(fw->getPointerCalls());
         set<PointerCall*>::iterator fpIt = fpCallsMap->begin();
         while (fpIt != fpCallsMap->end()) {
-            /*Value * callInst = fpIt->first;
+            Value * callInst = (*fpIt)->calledValue;
             std::string s;
             raw_string_ostream rso(s);
             rso << *(callInst);
@@ -148,20 +150,34 @@ void DyckCallGraph::printFunctionPointersInformation(const string& mIdentifier) 
                 }
             }
             fprintf(fout, "CallInst: %s\n", edgelabel.data()); //call inst
-             */
+            if (!isa<Instruction>(callInst)) {
+                fprintf(fout, "Not an instruction!\n"); //call inst
+            } else {
+                Instruction* ci = cast<Instruction>(callInst);
+                const DebugLoc& debugLoc = ci->getDebugLoc();
+                if (debugLoc.isUnknown()) {
+                    fprintf(fout, "No debug information!\n"); //call inst
+                } else {
+                    MDNode *n = debugLoc.getAsMDNode();
+                    DILocation diloc(n);
+                    StringRef fileName = diloc.getFilename();
+                    unsigned lineNum = diloc.getLineNumber();
+                    fprintf(fout, "%s:%d\n", fileName.data(), lineNum); //call inst
+                }
+            }
             set<Function*>* mayCalled = &((*(fpIt))->mayAliasedCallees);
             fprintf(fout, "%zd\n", mayCalled->size()); //number of functions
 
             // what functions?
             set<Function*>::iterator mcIt = mayCalled->begin();
             while (mcIt != mayCalled->end()) {
-                // Function * mcf = *mcIt;
-                //fprintf(fout, "%s\n", mcf->getName().data());
+                 Function * mcf = *mcIt;
+                fprintf(fout, "%s\n", mcf->getName().data());
 
                 mcIt++;
             }
 
-            //fprintf(fout, "\n");
+            fprintf(fout, "\n");
 
             fpIt++;
         }
