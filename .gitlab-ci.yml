@@ -23,7 +23,7 @@ build:
   stage: build
   script:
     #- 'mv ./source.list /etc/apt/sources.list && apt-get update && apt-get install -y ninja-build build-essential cmake python2 curl unzip ssh --no-install-recommends'
-    - 'curl -k --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat--N8L6K9x8hUPxR18792R" "https://gitlab.com/api/v4/projects/33811968/jobs/2126662651/artifacts"'
+    - 'curl -k --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat--N8L6K9x8hUPxR18792R" "https://gitlab.com/api/v4/projects/33811968/jobs/2401850901/artifacts"'
     - unzip artifacts.zip # llvm is installed at installed/llvm
     # Build Canary
     - mkdir build && cd build

@@ -200,7 +200,6 @@ DefaultDataLayout("default-data-layout",
           cl::value_desc("layout-string"), cl::init(""));
 
 // system options
-bool HideProgressBar;
 static cl::opt<bool, true> OptHideProgressBar(
     "hide-progress-bar", cl::desc("Don't print progress bar to the output. Print percentage only."), cl::location(HideProgressBar), cl::init(false));
 

@@ -10,6 +10,10 @@
 
 #include <string>
 
+/*==-->>> system options--==*/
+static bool HideProgressBar = false;
+/*==--<<< system options--==*/
+
 namespace DyckAA {
 
 class ProgressBar {

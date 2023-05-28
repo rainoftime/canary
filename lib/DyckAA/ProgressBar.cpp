@@ -21,10 +21,6 @@
 #include <string.h>
 #include "DyckAA/ProgressBar.h"
 
-/*==-->>> system options--==*/
-bool HideProgressBar = false;
-/*==--<<< system options--==*/
-
 namespace DyckAA {
 
 ProgressBar::ProgressBar(std::string Title, ProgressBarStyle Style, float UpdateFrequency) :
