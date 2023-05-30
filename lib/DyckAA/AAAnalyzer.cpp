@@ -478,9 +478,14 @@ DyckVertex* AAAnalyzer::wrapValue(Value * v) {
 			wrapValue(((ConstantExpr*) v)->getOperand(0));
 			DyckVertex * opt0 = wrapValue(((ConstantExpr*) v)->getOperand(1));
 			DyckVertex * opt1 = wrapValue(((ConstantExpr*) v)->getOperand(2));
-			vdv = wrapValue(v);
-			vdv = makeAlias(vdv, opt0);
-			vdv = makeAlias(vdv, opt1);
+            if (opt0 != opt1) {
+                vdv = wrapValue(v);
+                vdv = makeAlias(vdv, opt0);
+                vdv = makeAlias(vdv, opt1);
+            } else {
+                vdv = wrapValue(v);
+                vdv = makeAlias(vdv, opt0);
+            }
 		} else if (opcode == Instruction::ExtractValue) {
 			Value * agg = ((ConstantExpr*) v)->getOperand(0);
 			vector<unsigned> indicesVec;
