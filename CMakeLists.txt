@@ -30,5 +30,7 @@ message(STATUS "LLVM version: ${LLVM_VERSION}")
 add_subdirectory(lib)
 add_subdirectory(tools)
 
-
-
+if (ENABLE_ASAN)
+    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+    set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+endif()

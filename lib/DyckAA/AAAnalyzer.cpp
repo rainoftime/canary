@@ -477,14 +477,16 @@ DyckVertex* AAAnalyzer::wrapValue(Value * v) {
 		} else if (opcode == Instruction::Select) {
 			wrapValue(((ConstantExpr*) v)->getOperand(0));
 			DyckVertex * opt0 = wrapValue(((ConstantExpr*) v)->getOperand(1));
-			DyckVertex * opt1 = wrapValue(((ConstantExpr*) v)->getOperand(2));
-            if (opt0 != opt1) {
+            if (dgraph->getVertices().count(opt0)) {
+                // FIXME: select instruction can be cyclic so we need a fixed-point algorithm
                 vdv = wrapValue(v);
+                assert(dgraph->getVertices().count(vdv));
                 vdv = makeAlias(vdv, opt0);
-                vdv = makeAlias(vdv, opt1);
-            } else {
-                vdv = wrapValue(v);
-                vdv = makeAlias(vdv, opt0);
+                assert(dgraph->getVertices().count(vdv));
+                DyckVertex * opt1 = wrapValue(((ConstantExpr*) v)->getOperand(2));
+                if (dgraph->getVertices().count(vdv) && dgraph->getVertices().count(opt1)) {
+                    vdv = makeAlias(vdv, opt1);
+                }
             }
 		} else if (opcode == Instruction::ExtractValue) {
 			Value * agg = ((ConstantExpr*) v)->getOperand(0);
