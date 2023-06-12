@@ -761,8 +761,10 @@ void AAAnalyzer::handle_inst(Instruction *inst, DyckCallGraphNode * parent_func)
 	case Instruction::InsertElement: {
 		Value* vect = ((InsertElementInst*) inst)->getOperand(0);
 		Value* elmt2insert = ((InsertElementInst*) inst)->getOperand(1);
-		this->handle_extract_insert_elmt_inst(vect, elmt2insert);
-		this->handle_extract_insert_elmt_inst(inst, elmt2insert);
+        if (!this->dgraph->findDyckVertex(elmt2insert)) {
+            this->handle_extract_insert_elmt_inst(vect, elmt2insert);
+            this->handle_extract_insert_elmt_inst(inst, elmt2insert);
+        }
 
 		mask |= (~0);
 	}
