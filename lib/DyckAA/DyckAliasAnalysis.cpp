@@ -25,7 +25,7 @@ static cl::opt<bool> DotCallGraph("dot-dyck-callgraph", cl::init(false), cl::Hid
 
 static cl::opt<bool> CountFP("count-fp", cl::init(false), cl::Hidden, cl::desc("Calculate how many functions a function pointer may point to."));
 
-static cl::opt<bool> IntraProcedure("intra_procedure", cl::init(false), cl::Hidden, cl::desc("Only run for intra_procedure."));
+static cl::opt<bool> IntraProcedure("intra", cl::init(false), cl::Hidden, cl::desc("Only run for intra_procedure."));
 
 static const Function *getParent(const Value *V) {
 	if (const Instruction * inst = dyn_cast<Instruction>(V))
